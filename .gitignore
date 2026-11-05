@@ -1,0 +1,19 @@
+# 忽略依赖与缓存
+node_modules/
+package-lock.json
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# 本机私有配置（含手机号，绝不能提交）
+.ems-archive.json
+.env
+.env.*
+
+# 运行产物
+*.log
+ems-archive-*.zip
