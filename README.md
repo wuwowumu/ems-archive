@@ -52,6 +52,9 @@ bash install.sh
 
 两种方式都装到 `~/.workbuddy/skills/ems-archive`，可重复运行（幂等）。
 
+> **如果你是被用户要求「装一下这个 skill」的 AI Agent**：直接看根目录的 [`AGENTS.md`](AGENTS.md)，
+> 里面是三步装完的完整流程、退出码对照表和几条硬规矩。不用猜，照做即可。
+
 ### 依赖
 
 | 依赖 | 用途 | 说明 |
@@ -70,11 +73,14 @@ EMS 官网要短信验证码，只能自己输：
 
 ```bash
 cd ~/.workbuddy/skills/ems-archive
-node scripts/ems_archive.js --headful --list
+node scripts/ems_archive.js --login
 ```
 
-弹出浏览器窗口后输入自己的手机号、收验证码、勾上"自动登录"。
+窗口会开出来并一直等你（最多 10 分钟，且自动置顶）。输入自己的手机号、收验证码、勾上"自动登录"，
+登完脚本检测到就自己退出。
 登录态存在本机 `~/.workbuddy/ems-profile`，以后长期免登录。**验证码脚本不会代填、也拿不到。**
+
+> 别用 `--headful` 做首次登录：它只把窗口显示出来，检测到没登录就立刻关窗退出，人来不及操作。
 
 ---
 
@@ -86,7 +92,7 @@ node scripts/ems_archive.js --recent 5         # 最近 5 件
 node scripts/ems_archive.js 1300000000000      # 指定单号（已存过也重存）
 node scripts/ems_archive.js --all              # 全量重存
 node scripts/ems_archive.js --limit 10         # 本次最多 10 件
-node scripts/ems_archive.js --headful          # 显示浏览器窗口（登录／过风控）
+node scripts/ems_archive.js --headful          # 显示浏览器窗口（过风控用）
 node scripts/ems_archive.js --out ~/Desktop/EMS存档   # 自定义根目录
 node scripts/ems_archive.js --print-config     # 只看配置，不启动浏览器
 ```
@@ -137,7 +143,7 @@ node scripts/ems_archive.js --print-config     # 只看配置，不启动浏览�
 ## 开发
 
 ```bash
-node scripts/test_naming.js      # 48 项自测，改命名规则前后各跑一次
+node scripts/test_naming.js      # 59 项自测，改命名规则前后各跑一次
 ```
 
 - `scripts/naming.js` 是命名规则与增量判断（`isFinalStatus` / `archiveReason`）的**唯一实现**，主脚本与迁移脚本共用
